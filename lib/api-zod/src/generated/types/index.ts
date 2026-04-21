@@ -6,18 +6,4 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export * from "./activityItem";
-export * from "./aiChatBody";
-export * from "./aiChatResponse";
-export * from "./chatMessage";
-export * from "./chatMessageRole";
-export * from "./createFileBody";
-export * from "./createProjectBody";
-export * from "./dashboardStats";
-export * from "./executionResult";
 export * from "./healthStatus";
-export * from "./project";
-export * from "./projectFile";
-export * from "./runCodeBody";
-export * from "./updateFileBody";
-export * from "./updateProjectBody";
