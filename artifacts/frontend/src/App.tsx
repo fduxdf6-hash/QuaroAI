@@ -21,6 +21,11 @@ const EXT: Record<string, string> = {
   javascript: "js", typescript: "ts", python: "py", html: "html", css: "css", json: "json", markdown: "md",
 };
 
+function extractFirstCode(text: string): string | null {
+  const match = text.match(/```(?:\w*)\n?([\s\S]*?)```/);
+  return match ? match[1].trim() : null;
+}
+
 function renderMarkdown(text: string): JSX.Element[] {
   const parts: JSX.Element[] = [];
   const blocks = text.split(/(```[\s\S]*?```)/g);
@@ -441,16 +446,27 @@ export default function App() {
                 ))}
               </div>
             )}
-            {messages.map((m, i) => (
-              <div key={i} className={`flex flex-col gap-1 ${m.role === "user" ? "items-end" : "items-start"}`}>
-                <div className={`text-[10px] font-semibold ${m.role === "user" ? "text-yellow-500" : "text-purple-400"}`}>
-                  {m.role === "user" ? "You" : "AI"}
+            {messages.map((m, i) => {
+              const extracted = m.role === "assistant" ? extractFirstCode(m.content) : null;
+              return (
+                <div key={i} className={`flex flex-col gap-1 ${m.role === "user" ? "items-end" : "items-start"}`}>
+                  <div className={`text-[10px] font-semibold ${m.role === "user" ? "text-yellow-500" : "text-purple-400"}`}>
+                    {m.role === "user" ? "You" : "AI"}
+                  </div>
+                  <div className={`rounded-xl px-3 py-2 text-xs leading-relaxed max-w-full ${m.role === "user" ? "bg-purple-700 text-white rounded-tr-sm" : "bg-gray-800 text-gray-200 rounded-tl-sm"}`}>
+                    {m.role === "assistant" ? renderMarkdown(m.content) : m.content}
+                  </div>
+                  {extracted && (
+                    <button
+                      onClick={() => { setCode(extracted); addOutput([{ type: "info", text: "✏️ Code applied to editor" }]); }}
+                      className="text-[10px] bg-purple-700 hover:bg-purple-600 text-white rounded-lg px-3 py-1.5 mt-0.5 transition-colors font-semibold"
+                    >
+                      ✏️ Apply to Editor
+                    </button>
+                  )}
                 </div>
-                <div className={`rounded-xl px-3 py-2 text-xs leading-relaxed max-w-full ${m.role === "user" ? "bg-purple-700 text-white rounded-tr-sm" : "bg-gray-800 text-gray-200 rounded-tl-sm"}`}>
-                  {m.role === "assistant" ? renderMarkdown(m.content) : m.content}
-                </div>
-              </div>
-            ))}
+              );
+            })}
             {chatLoading && (
               <div className="flex items-start gap-2">
                 <div className="bg-gray-800 rounded-xl rounded-tl-sm px-3 py-2 text-xs text-purple-400 flex items-center gap-1.5">
