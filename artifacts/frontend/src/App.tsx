@@ -422,7 +422,18 @@ export default function App() {
             {messages.length === 0 && (
               <div className="flex flex-col gap-2 mt-2">
                 <p className="text-xs text-gray-500 text-center mb-2">Ask the AI about your code</p>
-                {["Explain this code", "Fix any bugs", "How can I improve this?", "Add error handling"].map((suggestion) => (
+                {[
+                  "Explain this code",
+                  "Fix any bugs",
+                  "How can I improve this?",
+                  "Add error handling",
+                  "Convert this to TypeScript",
+                  "Add unit tests for this",
+                  "Refactor to use async/await",
+                  "Optimize for performance",
+                  "What edge cases am I missing?",
+                  "Add comments to this code",
+                ].map((suggestion) => (
                   <button key={suggestion} onClick={() => { setChatInput(suggestion); }}
                     className="text-left text-xs text-gray-400 bg-gray-800 hover:bg-gray-700 border border-gray-700 rounded-lg px-3 py-2 transition-colors">
                     {suggestion}
