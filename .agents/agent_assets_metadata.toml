@@ -1,0 +1,8 @@
+uploads = []
+generated = []
+
+[[outputs]]
+id = "ntVo6Zpde8XHABCL53A1g"
+uri = "file://QuaroAI.tar.gz"
+type = "unspecified"
+title = "QuaroAI — Full Project Source"
